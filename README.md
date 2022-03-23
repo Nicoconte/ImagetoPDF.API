@@ -9,4 +9,4 @@ project: <a>https://github.com/Nicoconte/Conversor-de-Imagenes-a-PDF</a> </p>
 
 <hr>
 
-<span>Status: WIP</span>
+<span>Status: WIP (First API in golang lol)</span>
