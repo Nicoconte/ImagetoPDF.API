@@ -9,6 +9,8 @@ import (
 	"os"
 )
 
+var Config models.ConfigModel = GetConfig()
+
 func GetConfig() models.ConfigModel {
 
 	dir, err := os.Getwd()

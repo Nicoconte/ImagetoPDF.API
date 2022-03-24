@@ -4,16 +4,14 @@ import (
 	"errors"
 	"fmt"
 	"imagetopdf/helpers"
-	"imagetopdf/models"
 	"mime/multipart"
+	"os"
 	"strings"
 )
 
-var config models.ConfigModel = GetConfig()
+var BaseStorageRoute string = Config.StoragePath
 
-var BaseStorageRoute string = config.StoragePath
-
-var AllowedExtensions = config.AllowedExtensions
+var AllowedExtensions map[string]bool = Config.AllowedExtensions
 
 func SaveImagesIntoStorage(files []*multipart.FileHeader) (bool, error) {
 
@@ -31,6 +29,18 @@ func SaveImagesIntoStorage(files []*multipart.FileHeader) (bool, error) {
 		if err := helpers.CreateFileFromRequestHeader(file, output); err != nil {
 			return false, err
 		}
+	}
+
+	return true, nil
+}
+
+func DeleteImageFromStorage(filename string) (bool, error) {
+	path := BaseStorageRoute + filename
+
+	err := os.Remove(path)
+
+	if err != nil {
+		return false, err
 	}
 
 	return true, nil

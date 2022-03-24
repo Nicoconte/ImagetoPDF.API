@@ -18,6 +18,7 @@ func main() {
 	})
 
 	router.POST("/image", controllers.UploadImage)
+	router.DELETE("/image/:image-name", controllers.DeleteImage)
 
 	http.ListenAndServe("localhost:8080", router)
 }
