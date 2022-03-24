@@ -4,18 +4,16 @@ import (
 	"errors"
 	"fmt"
 	"imagetopdf/helpers"
+	"imagetopdf/models"
 	"mime/multipart"
 	"strings"
 )
 
-//Temp VAR
-var BaseStorageRoute string = "C:/GIT/me/ImagetoPDF/ImagetoPDF.Storage/"
+var config models.ConfigModel = GetConfig()
 
-var AllowedExtensions = map[string]bool{
-	"jpg":  true,
-	"png":  true,
-	"jpeg": true,
-}
+var BaseStorageRoute string = config.StoragePath
+
+var AllowedExtensions = config.AllowedExtensions
 
 func SaveImagesIntoStorage(files []*multipart.FileHeader) (bool, error) {
 
@@ -27,7 +25,7 @@ func SaveImagesIntoStorage(files []*multipart.FileHeader) (bool, error) {
 		extension := fileParts[len(fileParts)-1]
 
 		if !AllowedExtensions[extension] {
-			return false, errors.New(fmt.Sprintf("Extension %s is not allowed", extension))
+			return false, errors.New(fmt.Sprintf("Extension .%s is not allowed", extension))
 		}
 
 		if err := helpers.CreateFileFromRequestHeader(file, output); err != nil {

@@ -1,0 +1,8 @@
+{
+    "StoragePath": "C:/GIT/me/ImagetoPDF/ImagetoPDF.Storage/",
+    "AllowedExtensions": {
+        "jpg": true,
+        "jpeg": true,
+        "png": true
+    }
+}
