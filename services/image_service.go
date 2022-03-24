@@ -22,9 +22,9 @@ func SaveImagesIntoStorage(files []*multipart.FileHeader) (bool, error) {
 	for _, file := range files {
 		output := BaseStorageRoute + file.Filename
 
-		extensionParts := strings.Split(file.Filename, ".")
+		fileParts := strings.Split(file.Filename, ".")
 
-		extension := extensionParts[len(extensionParts)-1]
+		extension := fileParts[len(fileParts)-1]
 
 		if !AllowedExtensions[extension] {
 			return false, errors.New(fmt.Sprintf("Extension %s is not allowed", extension))

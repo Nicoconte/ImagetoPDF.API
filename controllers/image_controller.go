@@ -34,8 +34,16 @@ func UploadImage(ctx *gin.Context) {
 		return
 	}
 
+	var uploadImageResponse responses.UploadImageResponse
+
+	for _, image := range images {
+		uploadImageResponse.ImagesName = append(uploadImageResponse.ImagesName, image.Filename)
+	}
+
+	uploadImageResponse.Success = uploaded
+
 	ctx.JSON(http.StatusOK, gin.H{
-		"success":  uploaded,
-		"filename": images,
+		"success":  uploadImageResponse.Success,
+		"filename": uploadImageResponse.ImagesName,
 	})
 }
