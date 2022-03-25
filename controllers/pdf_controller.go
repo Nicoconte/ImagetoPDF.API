@@ -37,6 +37,8 @@ func ConvertImagesToPDF(ctx *gin.Context) {
 		})
 	}
 
+	services.UpdateSessionTime(sessionId)
+
 	ctx.Header("Content-Description", "File Transfer")
 	ctx.Header("Content-Transfer-Encoding", "binary")
 	ctx.Header("Content-Disposition", "attachment; filename="+pdfName+".pdf")
