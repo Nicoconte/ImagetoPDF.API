@@ -12,8 +12,14 @@ func HandleRoutes() *gin.Engine {
 
 	r := gin.Default()
 
+	//Image routes
 	r.POST("/image", controllers.UploadImage)
 	r.DELETE("/image/:image-name", controllers.DeleteImage)
+
+	//Session routes
+	r.POST("/session", controllers.StartSession)
+	r.DELETE("/session/:id", controllers.EndSession)
+	r.GET("session/status/:id", controllers.CheckSessionStatus)
 
 	return r
 }

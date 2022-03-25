@@ -15,7 +15,7 @@ func GetConfig() models.ConfigModel {
 
 	dir, err := os.Getwd()
 
-	path := fmt.Sprintf("%s/config.json", dir)
+	path := fmt.Sprintf("%s/configs/config.json", dir)
 
 	if err != nil {
 		log.Fatalf("Error: %s", err.Error())

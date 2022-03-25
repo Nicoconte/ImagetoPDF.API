@@ -11,9 +11,21 @@ import (
 
 func DeleteImage(ctx *gin.Context) {
 
+	//TODO. Maybe use it into a middleware
+	sessionId := ctx.Request.Header.Get("session-key")
+
+	if !services.SessionExists(sessionId) {
+		ctx.JSON(http.StatusUnauthorized, responses.ErrorResponse{
+			Success: false,
+			Reason:  "Unauthorized session",
+		})
+
+		return
+	}
+
 	imageName := ctx.Param("image-name")
 
-	deleted, err := services.DeleteImageFromStorage(imageName)
+	deleted, err := services.DeleteImageFromStorage(imageName, sessionId)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, responses.ErrorResponse{
@@ -24,13 +36,36 @@ func DeleteImage(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusBadRequest, responses.OkResponse{
+	err = services.UpdateSessionTime(sessionId)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, responses.ErrorResponse{
+			Success: false,
+			Reason:  err.Error(),
+		})
+
+		return
+	}
+
+	ctx.JSON(http.StatusOK, responses.OkResponse{
 		Success: deleted,
-		Message: fmt.Sprintf("Image deleted %s successfully", imageName),
+		Message: fmt.Sprintf("Image '%s' was deleted successfully", imageName),
 	})
 }
 
 func UploadImage(ctx *gin.Context) {
+
+	sessionId := ctx.Request.Header.Get("session-key")
+
+	if !services.SessionExists(sessionId) {
+		ctx.JSON(http.StatusUnauthorized, responses.ErrorResponse{
+			Success: false,
+			Reason:  "Unauthorized session",
+		})
+
+		return
+	}
+
 	form, err := ctx.MultipartForm()
 
 	if err != nil {
@@ -44,10 +79,21 @@ func UploadImage(ctx *gin.Context) {
 
 	images := form.File["images"]
 
-	uploaded, err := services.SaveImagesIntoStorage(images)
+	uploaded, err := services.SaveImagesIntoStorage(images, sessionId)
 
 	if err != nil {
 
+		ctx.JSON(http.StatusBadRequest, responses.ErrorResponse{
+			Success: false,
+			Reason:  err.Error(),
+		})
+
+		return
+	}
+
+	err = services.UpdateSessionTime(sessionId)
+
+	if err != nil {
 		ctx.JSON(http.StatusBadRequest, responses.ErrorResponse{
 			Success: false,
 			Reason:  err.Error(),

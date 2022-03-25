@@ -13,10 +13,10 @@ var BaseStorageRoute string = Config.StoragePath
 
 var AllowedExtensions map[string]bool = Config.AllowedExtensions
 
-func SaveImagesIntoStorage(files []*multipart.FileHeader) (bool, error) {
+func SaveImagesIntoStorage(files []*multipart.FileHeader, foldername string) (bool, error) {
 
 	for _, file := range files {
-		output := BaseStorageRoute + file.Filename
+		output := BaseStorageRoute + foldername + "/" + file.Filename
 
 		fileParts := strings.Split(file.Filename, ".")
 
@@ -34,8 +34,8 @@ func SaveImagesIntoStorage(files []*multipart.FileHeader) (bool, error) {
 	return true, nil
 }
 
-func DeleteImageFromStorage(filename string) (bool, error) {
-	path := BaseStorageRoute + filename
+func DeleteImageFromStorage(filename string, foldername string) (bool, error) {
+	path := BaseStorageRoute + foldername + "/" + filename
 
 	err := os.Remove(path)
 
