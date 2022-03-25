@@ -156,9 +156,9 @@ func CheckIfSessionIsActive(sessionId string) bool {
 
 	log.Printf("Fecha sesion %s Fecha actual menos 5 minutos %s\n", currentSession.CreatedAt.String(), time.Now().Add(-(time.Minute * 5)).String())
 
-	halfHour := (time.Minute * 5)
+	thirtyMinutes := (time.Minute * 30)
 
-	isActive := currentSession.UpdatedAt.After(time.Now().Add(-halfHour))
+	isActive := currentSession.UpdatedAt.After(time.Now().Add(-thirtyMinutes))
 
 	return isActive
 }

@@ -26,6 +26,7 @@ func StartSession(ctx *gin.Context) {
 	folderFullpath := services.Config.StoragePath + session
 
 	err = os.Mkdir(folderFullpath, 0755)
+	err = os.Mkdir(folderFullpath+"/output", 0755)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, responses.ErrorResponse{

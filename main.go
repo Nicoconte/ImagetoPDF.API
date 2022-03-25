@@ -11,7 +11,7 @@ import (
 
 func main() {
 	cron := gocron.NewScheduler(time.UTC)
-	cron.Every(3).Minutes().Do(services.DeleteAllSessions)
+	cron.Every(1).Hour().Do(services.DeleteAllSessions)
 	cron.StartAsync()
 
 	http.ListenAndServe("localhost:8080", routes.Router)

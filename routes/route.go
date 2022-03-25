@@ -21,5 +21,8 @@ func HandleRoutes() *gin.Engine {
 	r.DELETE("/session/:id", controllers.EndSession)
 	r.GET("session/status/:id", controllers.GetSessionStatus)
 
+	//PDF routes
+	r.GET("/pdf/:pdf-name", controllers.ConvertImagesToPDF)
+
 	return r
 }
