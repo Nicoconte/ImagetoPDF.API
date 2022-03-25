@@ -46,4 +46,5 @@ func ConvertImagesToPDF(ctx *gin.Context) {
 	ctx.File(targetPath)
 
 	services.DeletePDFFromStorage(targetPath)
+	services.DeleteAllImagesAfterDownload(sessionId)
 }
