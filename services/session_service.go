@@ -7,6 +7,7 @@ import (
 	"imagetopdf/helpers"
 	"imagetopdf/models"
 	"log"
+	"os"
 	"time"
 )
 
@@ -72,6 +73,13 @@ func DeleteSession(sessionId string) error {
 		return err
 	}
 
+	err = os.RemoveAll(Config.StoragePath + sessionId)
+
+	if err != nil {
+		log.Printf("Cannot delete session %s - Reason: %s", sessionId, err.Error())
+		return err
+	}
+
 	return nil
 }
 
@@ -88,8 +96,10 @@ func DeleteAllSessions() error {
 			return err
 		}
 
+		log.Printf("Key %s \n", key)
+
 		//We only delete a session if it is not active
-		if CheckIfSessionActive(key) {
+		if CheckIfSessionIsActive(key) {
 			continue
 		} else {
 			DeleteSession(key)
@@ -137,7 +147,7 @@ func GetSession(sessionId string) (models.SessionModel, error) {
 	return *currentSession, nil
 }
 
-func CheckIfSessionActive(sessionId string) bool {
+func CheckIfSessionIsActive(sessionId string) bool {
 	currentSession, err := GetSession(sessionId)
 
 	if err != nil {

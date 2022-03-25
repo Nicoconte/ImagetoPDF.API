@@ -19,7 +19,7 @@ func HandleRoutes() *gin.Engine {
 	//Session routes
 	r.POST("/session", controllers.StartSession)
 	r.DELETE("/session/:id", controllers.EndSession)
-	r.GET("session/status/:id", controllers.CheckSessionStatus)
+	r.GET("session/status/:id", controllers.GetSessionStatus)
 
 	return r
 }

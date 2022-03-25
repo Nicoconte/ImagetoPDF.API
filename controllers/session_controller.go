@@ -69,7 +69,7 @@ func EndSession(ctx *gin.Context) {
 	})
 }
 
-func CheckSessionStatus(ctx *gin.Context) {
+func GetSessionStatus(ctx *gin.Context) {
 	var id = ctx.Param("id")
 
 	if !services.SessionExists(id) {
@@ -81,7 +81,7 @@ func CheckSessionStatus(ctx *gin.Context) {
 		return
 	}
 
-	isActive := services.CheckIfSessionActive(id)
+	isActive := services.CheckIfSessionIsActive(id)
 
 	err := services.UpdateSessionTime(id)
 
@@ -102,8 +102,9 @@ func CheckSessionStatus(ctx *gin.Context) {
 		sessionStatus = "DOWN"
 	}
 
-	ctx.JSON(http.StatusOK, responses.OkResponse{
+	ctx.JSON(http.StatusOK, responses.SessionStatusResponse{
 		Success: true,
+		Status:  isActive,
 		Message: fmt.Sprintf("Session status: %s", sessionStatus),
 	})
 }
