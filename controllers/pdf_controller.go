@@ -5,6 +5,7 @@ import (
 	"imagetopdf/contracts/responses"
 	"imagetopdf/helpers"
 	"imagetopdf/services"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -28,7 +29,11 @@ func ConvertImagesToPDF(ctx *gin.Context) {
 		pdfName = helpers.GetGuid()
 	}
 
-	targetPath, err := services.GeneratePDF(sessionId, fmt.Sprintf("%s.pdf", pdfName))
+	pdfName = fmt.Sprintf("%s.pdf", pdfName)
+
+	targetPath, err := services.GeneratePDF(sessionId, pdfName)
+
+	log.Printf("Target %s \n", targetPath)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, responses.ErrorResponse{
@@ -43,7 +48,7 @@ func ConvertImagesToPDF(ctx *gin.Context) {
 
 	ctx.Header("Content-Description", "File Transfer")
 	ctx.Header("Content-Transfer-Encoding", "binary")
-	ctx.Header("Content-Disposition", "attachment; filename="+pdfName+".pdf")
+	ctx.Header("Content-Disposition", "attachment; filename="+pdfName)
 	ctx.Header("Content-Type", "application/octet-stream")
 	ctx.File(targetPath)
 
