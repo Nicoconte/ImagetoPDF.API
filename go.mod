@@ -7,6 +7,7 @@ require (
 	github.com/go-co-op/gocron v1.13.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/pborman/uuid v1.2.1
+	github.com/signintech/gopdf v0.10.8	
 )
 
 require (
@@ -26,7 +27,6 @@ require (
 	github.com/phpdave11/gofpdi v1.0.13 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/robfig/cron/v3 v3.0.1 // indirect
-	github.com/signintech/gopdf v0.10.8 // indirect
 	github.com/ugorji/go/codec v1.1.7 // indirect
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
