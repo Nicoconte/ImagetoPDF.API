@@ -35,6 +35,8 @@ func ConvertImagesToPDF(ctx *gin.Context) {
 			Success: false,
 			Reason:  err.Error(),
 		})
+
+		return
 	}
 
 	services.UpdateSessionTime(sessionId)

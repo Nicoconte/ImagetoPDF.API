@@ -73,7 +73,7 @@ func DeleteSession(sessionId string) error {
 		return err
 	}
 
-	err = os.RemoveAll(Config.StoragePath + sessionId)
+	err = os.RemoveAll(data.Config.StoragePath + sessionId)
 
 	if err != nil {
 		log.Printf("Cannot delete session %s - Reason: %s", sessionId, err.Error())

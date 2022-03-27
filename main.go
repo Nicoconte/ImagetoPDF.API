@@ -1,6 +1,7 @@
 package main
 
 import (
+	"imagetopdf/data"
 	"imagetopdf/routes"
 	"imagetopdf/services"
 	"net/http"
@@ -14,5 +15,5 @@ func main() {
 	cron.Every(1).Hour().Do(services.DeleteAllSessions)
 	cron.StartAsync()
 
-	http.ListenAndServe("localhost:8080", routes.Router)
+	http.ListenAndServe(data.Config.Host, routes.Router)
 }

@@ -2,11 +2,14 @@ package services
 
 import (
 	"fmt"
+	"imagetopdf/data"
 	"log"
 	"os"
 	"os/exec"
 	"strings"
 )
+
+var storageBasePath string = data.Config.StoragePath
 
 func DeletePDFFromStorage(pdfPath string) error {
 	err := os.RemoveAll(pdfPath)
@@ -19,27 +22,35 @@ func DeletePDFFromStorage(pdfPath string) error {
 }
 
 func GeneratePDF(foldername string, outputFilename string) (string, error) {
-	cmd := buildPdfCpuCommand(foldername, outputFilename)
+	cmd, err := buildPdfCpuCommand(foldername, outputFilename)
 
-	err := exec.Command("powershell", cmd).Run()
+	if err != nil {
+		log.Println(fmt.Printf("Cannot build command: Reason: %s", err.Error()))
+		return "", err
+	}
+
+	fmt.Printf("Exec: %s \n", data.Config.CommandExecutor)
+
+	err = exec.Command(data.Config.CommandExecutor, cmd).Run()
 
 	if err != nil {
 		log.Println(fmt.Printf("Cannot proccess command: Reason: %s", err.Error()))
 		return "", err
 	}
 
-	outputFilePath := Config.StoragePath + "/" + foldername + "/output/" + outputFilename
+	outputFilePath := storageBasePath + "/" + foldername + "/output/" + outputFilename
 
 	return outputFilePath, nil
 }
 
-func buildPdfCpuCommand(inputFolder string, outputFilename string) string {
-	path := Config.StoragePath + inputFolder + "/"
+func buildPdfCpuCommand(inputFolder string, outputFilename string) (string, error) {
+	path := storageBasePath + inputFolder + "/"
 
 	imagesFromStorage, err := getImagesPathFromStorage(path)
 
 	if err != nil {
-		log.Fatalf("Cannot get images from storage. Reason: %s", err.Error())
+		log.Printf("Cannot get images from storage. Reason: %s", err.Error())
+		return "", err
 	}
 
 	imageNames := strings.Join(imagesFromStorage, " ")
@@ -48,7 +59,7 @@ func buildPdfCpuCommand(inputFolder string, outputFilename string) string {
 
 	cmd := fmt.Sprintf("pdfcpu import %s/%s %s", outputPath, outputFilename, imageNames)
 
-	return cmd
+	return cmd, nil
 }
 
 func getImagesPathFromStorage(basePath string) ([]string, error) {
@@ -67,7 +78,7 @@ func getImagesPathFromStorage(basePath string) ([]string, error) {
 
 		extension := imageNameParts[len(imageNameParts)-1]
 
-		if Config.AllowedExtensions[extension] {
+		if data.Config.AllowedExtensions[extension] {
 			imagesPath = append(imagesPath, fmt.Sprintf("%s ", basePath+"/"+image.Name()))
 		}
 	}
@@ -76,7 +87,7 @@ func getImagesPathFromStorage(basePath string) ([]string, error) {
 }
 
 func DeleteAllImagesAfterDownload(foldername string) {
-	paths, err := getImagesPathFromStorage(Config.StoragePath + foldername)
+	paths, err := getImagesPathFromStorage(storageBasePath + foldername)
 
 	if err != nil {
 		log.Fatalf("Cannot delete image. Error: %s", err.Error())

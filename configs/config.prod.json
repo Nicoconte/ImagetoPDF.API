@@ -1,8 +1,9 @@
 {
-    "StoragePath": "C:/GIT/me/ImagetoPDF/ImagetoPDF.Storage/",
+    "StoragePath": "./storage/",
     "AllowedExtensions": {
         "jpg": true,
         "jpeg": true,
         "png": true
-    }
+    },
+    "CommandExecutor": "powershell"
 }

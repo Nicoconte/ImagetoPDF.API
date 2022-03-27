@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  redis:
+    container_name: "imagetopdf-redis"
+    image: redis:alpine
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports: 
+      - "6379:6379"
+    volumes: 
+      - /redis.conf:/usr/local/etc/redis/redis.conf
+  go:
+    container_name: "imagetopdf-api"
+    environment:
+      - ImagetopdfEnv=docker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"

@@ -1,0 +1,11 @@
+{
+    "StoragePath": "./storage/",
+    "CommandExecutor": "/bin/sh",
+    "RedisConnection": "redis:6379",
+    "Host": "0.0.0.0:8080",
+    "AllowedExtensions": {
+        "jpg": true,
+        "jpeg": true,
+        "png": true
+    }    
+}

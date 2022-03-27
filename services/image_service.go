@@ -3,15 +3,16 @@ package services
 import (
 	"errors"
 	"fmt"
+	"imagetopdf/data"
 	"imagetopdf/helpers"
 	"mime/multipart"
 	"os"
 	"strings"
 )
 
-var BaseStorageRoute string = Config.StoragePath
+var BaseStorageRoute string = data.Config.StoragePath
 
-var AllowedExtensions map[string]bool = Config.AllowedExtensions
+var AllowedExtensions map[string]bool = data.Config.AllowedExtensions
 
 func SaveImagesIntoStorage(files []*multipart.FileHeader, foldername string) (bool, error) {
 

@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"imagetopdf/contracts/responses"
+	"imagetopdf/data"
 	"imagetopdf/services"
 	"net/http"
 	"os"
@@ -23,7 +24,7 @@ func StartSession(ctx *gin.Context) {
 	}
 
 	//Create session folder
-	folderFullpath := services.Config.StoragePath + session
+	folderFullpath := data.Config.StoragePath + session
 
 	err = os.Mkdir(folderFullpath, 0755)
 	err = os.Mkdir(folderFullpath+"/output", 0755)
