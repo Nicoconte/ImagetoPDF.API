@@ -62,6 +62,11 @@ func GetImagesFromStorage(basePath string) ([]models.ImageModel, error) {
 	var images []models.ImageModel
 
 	for _, imageEntry := range imageEntries {
+
+		if imageEntry.IsDir() {
+			continue
+		}
+
 		img, err := GetImageInformation(imageEntry, basePath)
 
 		if err != nil {
@@ -74,15 +79,15 @@ func GetImagesFromStorage(basePath string) ([]models.ImageModel, error) {
 		}
 	}
 
+	if len(images) == 0 {
+		return nil, errors.New("Directory is empty")
+	}
+
 	return images, nil
 }
 
 func GetImageInformation(imageEntry fs.DirEntry, basePath string) (models.ImageModel, error) {
 	img := models.ImageModel{}
-
-	if imageEntry.IsDir() {
-		return img, errors.New("Directory is empty")
-	}
 
 	imgFullpath := fmt.Sprintf("%s/%s", basePath, imageEntry.Name())
 
