@@ -21,10 +21,6 @@ func DeletePDFFromStorage(pdfPath string) error {
 }
 
 func GeneratePDF(foldername string, outputFilename string) (string, error) {
-
-	pdf := gopdf.GoPdf{}
-	pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4})
-
 	path := storageBasePath + foldername + "/"
 
 	imagesFromStorage, err := GetImagesFromStorage(path)
@@ -33,6 +29,9 @@ func GeneratePDF(foldername string, outputFilename string) (string, error) {
 		fmt.Printf("Cannot generate pdf: Reason %s\n", err.Error())
 		return "", err
 	}
+
+	pdf := gopdf.GoPdf{}
+	pdf.Start(gopdf.Config{})
 
 	for _, img := range imagesFromStorage {
 

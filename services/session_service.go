@@ -96,8 +96,6 @@ func DeleteAllSessions() error {
 			return err
 		}
 
-		log.Printf("Key %s \n", key)
-
 		//We only delete a session if it is not active
 		if CheckIfSessionIsActive(key) {
 			continue
@@ -153,8 +151,6 @@ func CheckIfSessionIsActive(sessionId string) bool {
 	if err != nil {
 		return false
 	}
-
-	log.Printf("Fecha sesion %s Fecha actual menos 5 minutos %s\n", currentSession.CreatedAt.String(), time.Now().Add(-(time.Minute * 5)).String())
 
 	thirtyMinutes := (time.Minute * 30)
 

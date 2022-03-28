@@ -11,7 +11,7 @@ services:
   go:
     container_name: "imagetopdf-api"
     environment:
-      - ImagetopdfEnv=docker
+      - APP_ENV=docker
     build:
       context: .
       dockerfile: Dockerfile

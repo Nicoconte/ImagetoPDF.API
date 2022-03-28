@@ -16,7 +16,7 @@ func GetConfig() models.ConfigModel {
 
 	dir, err := os.Getwd()
 
-	env := strings.ToLower(os.Getenv("ImagetopdfEnv"))
+	env := strings.ToLower(os.Getenv("APP_ENV"))
 
 	var filename string = ""
 
