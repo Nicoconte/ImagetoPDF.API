@@ -2,6 +2,7 @@ package routes
 
 import (
 	"imagetopdf/controllers"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,6 +12,11 @@ var Router = HandleRoutes()
 func HandleRoutes() *gin.Engine {
 
 	r := gin.Default()
+
+	r.GET("/test", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{"message": "Hello World"})
+		return
+	})
 
 	//Image routes
 	r.POST("api/v1/image", controllers.UploadImage)

@@ -1,9 +1,0 @@
-{
-    "StoragePath": "./storage/",
-    "AllowedExtensions": {
-        "jpg": true,
-        "jpeg": true,
-        "png": true
-    },
-    "CommandExecutor": "powershell"
-}

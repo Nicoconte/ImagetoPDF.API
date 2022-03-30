@@ -13,6 +13,7 @@ import (
 var Config models.ConfigModel = GetConfig()
 
 func GetConfig() models.ConfigModel {
+	configuration := models.ConfigModel{}
 
 	dir, err := os.Getwd()
 
@@ -20,13 +21,20 @@ func GetConfig() models.ConfigModel {
 
 	var filename string = ""
 
-	if env == "docker" {
-		filename = "config.docker"
-	} else if env == "local" {
-		filename = "config.local"
-	} else {
+	switch env {
+	case "dev":
+		filename = "config.dev"
+
+	case "prod":
+		configuration.Host = fmt.Sprintf(":%s", os.Getenv("PORT"))
+		configuration.RedisUrl = os.Getenv("REDIS_URL")
+		configuration.StoragePath = os.Getenv("STORAGE_PATH")
+
+	default:
 		panic(1)
 	}
+
+	fmt.Printf("Env: %s - Filename: %s \n", env, filename)
 
 	path := fmt.Sprintf("%s/configs/%s.json", dir, filename)
 
@@ -38,7 +46,6 @@ func GetConfig() models.ConfigModel {
 	defer file.Close()
 
 	decoder := json.NewDecoder(file)
-	configuration := models.ConfigModel{}
 
 	err = decoder.Decode(&configuration)
 
