@@ -16,7 +16,19 @@ import (
 
 var BaseStorageRoute string = data.Config.StoragePath
 
-var AllowedExtensions map[string]bool = data.Config.AllowedExtensions
+var AllowedExtensions map[string]bool = buildAllowdExtensionMap()
+
+func buildAllowdExtensionMap() map[string]bool {
+	mapping := make(map[string]bool)
+
+	var extensions = strings.Split(data.Config.AllowedExtensions, ",")
+
+	for _, ext := range extensions {
+		mapping[ext] = true
+	}
+
+	return mapping
+}
 
 func SaveImagesIntoStorage(files []*multipart.FileHeader, foldername string) (bool, error) {
 
@@ -74,7 +86,7 @@ func GetImagesFromStorage(basePath string) ([]models.ImageModel, error) {
 			return nil, err
 		}
 
-		if data.Config.AllowedExtensions[img.Extension] {
+		if AllowedExtensions[img.Extension] {
 			images = append(images, img)
 		}
 	}

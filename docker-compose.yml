@@ -11,7 +11,10 @@ services:
   go:
     container_name: "imagetopdf-api"
     environment:
-      - APP_ENV=dev
+      - PORT=:0.0.0.0:8080
+      - REDIS_URL=redis:6739
+      - STORAGE_PATH=./storage/
+      - ALLOWED_EXTENSIONS=jpg,jpeg,png
     build:
       context: .
       dockerfile: Dockerfile

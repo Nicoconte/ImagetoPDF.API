@@ -3,11 +3,12 @@ module imagetopdf
 go 1.17
 
 require (
+	github.com/caarlos0/env/v6 v6.9.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-co-op/gocron v1.13.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/pborman/uuid v1.2.1
-	github.com/signintech/gopdf v0.10.8	
+	github.com/signintech/gopdf v0.10.8
 )
 
 require (
