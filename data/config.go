@@ -16,5 +16,6 @@ func GetConfig() models.ConfigModel {
 	if err != nil {
 		panic(1)
 	}
+
 	return cfg
 }

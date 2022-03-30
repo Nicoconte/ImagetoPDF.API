@@ -12,7 +12,7 @@ services:
     container_name: "imagetopdf-api"
     environment:
       - APP_ENV=dev
-      - PORT=0.0.0.0:8080
+      - PORT=8080
       - REDIS_URL=redis:6379
       - STORAGE_PATH=./storage/
       - ALLOWED_EXTENSIONS=jpg,jpeg,png

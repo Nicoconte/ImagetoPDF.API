@@ -16,5 +16,5 @@ func main() {
 	cron.Every(1).Hour().Do(services.DeleteAllSessions)
 	cron.StartAsync()
 
-	http.ListenAndServe(fmt.Sprintf("%s", data.Config.Port), routes.Router)
+	http.ListenAndServe(fmt.Sprintf(":%s", data.Config.Port), routes.Router)
 }
