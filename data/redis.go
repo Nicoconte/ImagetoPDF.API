@@ -7,10 +7,24 @@ import (
 var RedisClient *redis.Client = InitClient()
 
 func InitClient() *redis.Client {
-	opt, err := redis.ParseURL(Config.RedisUrl)
+	switch Config.Env {
+	case "dev":
+		return redis.NewClient(&redis.Options{
+			Addr:     Config.RedisUrl,
+			Password: "",
+			DB:       0,
+		})
 
-	if err != nil {
+	case "prod":
+		opt, err := redis.ParseURL(Config.RedisUrl)
+
+		if err != nil {
+			panic(1)
+		} else {
+			return redis.NewClient(opt)
+		}
+
+	default:
 		panic(1)
 	}
-	return redis.NewClient(opt)
 }
