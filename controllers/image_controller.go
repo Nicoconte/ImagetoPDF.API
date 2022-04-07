@@ -55,6 +55,8 @@ func DeleteImage(ctx *gin.Context) {
 
 func UploadImage(ctx *gin.Context) {
 
+	ctx.Header("Access-Control-Allow-Origin", "*")
+
 	sessionId := ctx.Request.Header.Get("session-key")
 
 	if !services.SessionExists(sessionId) {
