@@ -12,9 +12,6 @@ import (
 )
 
 func StartSession(ctx *gin.Context) {
-
-	ctx.Header("Access-Control-Allow-Origin", "*")
-
 	session, err := services.CreateSession()
 
 	if err != nil {

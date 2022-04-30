@@ -4,6 +4,7 @@ import (
 	"imagetopdf/controllers"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,6 +13,8 @@ var Router = HandleRoutes()
 func HandleRoutes() *gin.Engine {
 
 	r := gin.Default()
+
+	r.Use(cors.Default())
 
 	r.GET("/test", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"message": "Hello World"})

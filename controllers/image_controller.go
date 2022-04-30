@@ -10,7 +10,6 @@ import (
 )
 
 func DeleteImage(ctx *gin.Context) {
-
 	//TODO. Maybe use it into a middleware
 	sessionId := ctx.Request.Header.Get("session-key")
 
@@ -54,9 +53,6 @@ func DeleteImage(ctx *gin.Context) {
 }
 
 func UploadImage(ctx *gin.Context) {
-
-	ctx.Header("Access-Control-Allow-Origin", "*")
-
 	sessionId := ctx.Request.Header.Get("session-key")
 
 	if !services.SessionExists(sessionId) {
