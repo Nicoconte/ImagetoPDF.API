@@ -16,6 +16,8 @@ func HandleRoutes() *gin.Engine {
 
 	r.Use(cors.Default())
 
+	r.Static("/store", "./storage")
+
 	r.GET("/test", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"message": "Hello World"})
 		return

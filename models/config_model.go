@@ -6,4 +6,5 @@ type ConfigModel struct {
 	RedisUrl          string `env:"REDIS_URL"`
 	Port              string `env:"PORT"`
 	AllowedExtensions string `env:"ALLOWED_EXTENSIONS"`
+	Host              string `env:"HOST"`
 }

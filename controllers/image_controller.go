@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"imagetopdf/contracts/responses"
+	"imagetopdf/data"
 	"imagetopdf/services"
 	"net/http"
 
@@ -102,8 +103,12 @@ func UploadImage(ctx *gin.Context) {
 
 	var uploadImageResponse responses.UploadImageResponse
 
+	baseHost := fmt.Sprintf("%s:%s", data.Config.Host, data.Config.Port)
+
+	storeUrl := fmt.Sprintf("%s/store/%s", baseHost, sessionId)
+
 	for _, image := range images {
-		uploadImageResponse.ImagesName = append(uploadImageResponse.ImagesName, image.Filename)
+		uploadImageResponse.ImagesName = append(uploadImageResponse.ImagesName, fmt.Sprintf("%s/%s", storeUrl, image.Filename))
 	}
 
 	uploadImageResponse.Success = uploaded

@@ -16,9 +16,9 @@ import (
 
 var BaseStorageRoute string = data.Config.StoragePath
 
-var AllowedExtensions map[string]bool = buildAllowdExtensionMap()
+var AllowedExtensions map[string]bool = buildAllowedExtensionMap()
 
-func buildAllowdExtensionMap() map[string]bool {
+func buildAllowedExtensionMap() map[string]bool {
 	mapping := make(map[string]bool)
 
 	var extensions = strings.Split(data.Config.AllowedExtensions, ",")

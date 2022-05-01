@@ -16,6 +16,7 @@ services:
       - REDIS_URL=redis:6379
       - STORAGE_PATH=./storage/
       - ALLOWED_EXTENSIONS=jpg,jpeg,png
+      - HOST=http://localhost
     build:
       context: .
       dockerfile: Dockerfile
