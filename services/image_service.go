@@ -33,8 +33,6 @@ func buildAllowedExtensionMap() map[string]bool {
 func SaveImagesIntoStorage(files []*multipart.FileHeader, foldername string) (bool, error) {
 
 	for _, file := range files {
-		output := BaseStorageRoute + foldername + "/" + file.Filename
-
 		fileParts := strings.Split(file.Filename, ".")
 
 		extension := fileParts[len(fileParts)-1]
@@ -43,9 +41,30 @@ func SaveImagesIntoStorage(files []*multipart.FileHeader, foldername string) (bo
 			return false, errors.New(fmt.Sprintf("Extension .%s is not allowed", extension))
 		}
 
+		file.Filename = fmt.Sprintf("%s-%s.%s", fileParts[0], helpers.GetGuid(), extension)
+
+		output := BaseStorageRoute + foldername + "/" + file.Filename
+
 		if err := helpers.CreateFileFromRequestHeader(file, output); err != nil {
 			return false, err
 		}
+	}
+
+	return true, nil
+}
+
+func DeleteAllImagesFromStorage(folder string) (bool, error) {
+	fullpath := data.Config.StoragePath + folder
+
+	images, err := GetImagesFromStorage(fullpath)
+
+	if err != nil {
+		log.Printf("Cannot delete session %s - Reason: %s", folder, err.Error())
+		return false, nil
+	}
+
+	for _, img := range images {
+		os.Remove(img.Path)
 	}
 
 	return true, nil

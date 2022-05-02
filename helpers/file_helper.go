@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"errors"
 	"io"
 	"mime/multipart"
 	"os"
@@ -24,4 +25,12 @@ func CreateFileFromRequestHeader(fileHeader *multipart.FileHeader, dst string) e
 	_, err = io.Copy(out, file)
 
 	return err
+}
+
+func FileExists(path string) bool {
+	if _, err := os.Stat(path); errors.Is(err, os.ErrNotExist) {
+		return false
+	} else {
+		return true
+	}
 }

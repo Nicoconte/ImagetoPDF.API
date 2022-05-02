@@ -10,8 +10,47 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func DeleteAllImages(ctx *gin.Context) {
+	sessionId := ctx.Request.Header.Get("session-key")
+
+	if !services.SessionExists(sessionId) {
+		ctx.JSON(http.StatusUnauthorized, responses.ErrorResponse{
+			Success: false,
+			Reason:  "Unauthorized session",
+		})
+
+		return
+	}
+
+	deleted, err := services.DeleteAllImagesFromStorage(sessionId)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, responses.ErrorResponse{
+			Success: false,
+			Reason:  err.Error(),
+		})
+
+		return
+	}
+
+	err = services.UpdateSessionTime(sessionId)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, responses.ErrorResponse{
+			Success: false,
+			Reason:  err.Error(),
+		})
+
+		return
+	}
+
+	ctx.JSON(http.StatusOK, responses.OkResponse{
+		Success: deleted,
+		Message: "Images was deleted successfully",
+	})
+}
+
 func DeleteImage(ctx *gin.Context) {
-	//TODO. Maybe use it into a middleware
 	sessionId := ctx.Request.Header.Get("session-key")
 
 	if !services.SessionExists(sessionId) {

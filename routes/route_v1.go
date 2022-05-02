@@ -14,7 +14,11 @@ func HandleRoutes() *gin.Engine {
 
 	r := gin.Default()
 
-	r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"*"},
+		AllowHeaders: []string{"*"},
+	}))
 
 	r.Static("/store", "./storage")
 
@@ -26,6 +30,7 @@ func HandleRoutes() *gin.Engine {
 	//Image routes
 	r.POST("api/v1/image", controllers.UploadImage)
 	r.DELETE("api/v1/image/:image-name", controllers.DeleteImage)
+	r.DELETE("api/v1/image", controllers.DeleteAllImages)
 
 	//Session routes
 	r.POST("api/v1/session", controllers.StartSession)
