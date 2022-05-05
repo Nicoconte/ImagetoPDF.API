@@ -13,15 +13,6 @@ import (
 func DeleteAllImages(ctx *gin.Context) {
 	sessionId := ctx.Request.Header.Get("session-key")
 
-	if !services.SessionExists(sessionId) {
-		ctx.JSON(http.StatusUnauthorized, responses.ErrorResponse{
-			Success: false,
-			Reason:  "Unauthorized session",
-		})
-
-		return
-	}
-
 	deleted, err := services.DeleteAllImagesFromStorage(sessionId)
 
 	if err != nil {
@@ -52,15 +43,6 @@ func DeleteAllImages(ctx *gin.Context) {
 
 func DeleteImage(ctx *gin.Context) {
 	sessionId := ctx.Request.Header.Get("session-key")
-
-	if !services.SessionExists(sessionId) {
-		ctx.JSON(http.StatusUnauthorized, responses.ErrorResponse{
-			Success: false,
-			Reason:  "Unauthorized session",
-		})
-
-		return
-	}
 
 	imageName := ctx.Param("image-name")
 
@@ -94,15 +76,6 @@ func DeleteImage(ctx *gin.Context) {
 
 func UploadImage(ctx *gin.Context) {
 	sessionId := ctx.Request.Header.Get("session-key")
-
-	if !services.SessionExists(sessionId) {
-		ctx.JSON(http.StatusUnauthorized, responses.ErrorResponse{
-			Success: false,
-			Reason:  "Unauthorized session",
-		})
-
-		return
-	}
 
 	form, err := ctx.MultipartForm()
 

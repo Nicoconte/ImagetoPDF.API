@@ -2,6 +2,7 @@ package routes
 
 import (
 	"imagetopdf/controllers"
+	"imagetopdf/middlewares"
 	"net/http"
 
 	"github.com/gin-contrib/cors"
@@ -19,6 +20,8 @@ func HandleRoutes() *gin.Engine {
 		AllowMethods: []string{"*"},
 		AllowHeaders: []string{"*"},
 	}))
+
+	r.Use(middlewares.CheckSessionExists())
 
 	r.Static("/store", "./storage")
 

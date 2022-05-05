@@ -13,15 +13,6 @@ import (
 func ConvertImagesToPDF(ctx *gin.Context) {
 	sessionId := ctx.Request.Header.Get("session-key")
 
-	if !services.SessionExists(sessionId) {
-		ctx.JSON(http.StatusUnauthorized, responses.ErrorResponse{
-			Success: false,
-			Reason:  "Unauthorized session",
-		})
-
-		return
-	}
-
 	pdfName := ctx.Param("pdf-name")
 
 	if pdfName == "default" {
